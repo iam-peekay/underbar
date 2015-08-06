@@ -65,22 +65,6 @@ _.each = function(collection, iterator) {
   };
 
 
-/*
-  _.each = function(collection, iterator) {
-    if (collection.constructor === Array) {
-      for (var i = 0; i < collection.length; i++) {
-        var index = i;
-        iterator(collection[i], index, collection);
-      }
-    }
-    if (collection.constructor === Object) {
-      for (var key in collection) {
-        iterator(collection[key], key, collection);
-      }
-    }
-  };
-  */
-
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
@@ -100,12 +84,22 @@ _.each = function(collection, iterator) {
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var filtered = [];
+    _.each(collection, function(item) {
+      if (test(item)) {
+        filtered.push(item);
+      }
+    });
+    return filtered;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    return _.filter(collection, function(item) {
+      return !test(item);
+    });
   };
 
   // Produce a duplicate-free version of the array.
