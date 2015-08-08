@@ -347,7 +347,19 @@ _.each = function(collection, iterator) {
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+
+  
   _.shuffle = function(array) {
+    var copyOfArray = Array.prototype.slice.call(array);
+    var newArr = [];
+
+    for (var i = 0; i < array.length; i++) {
+      var rand = Math.floor(Math.random() * copyOfArray.length);
+      newArr.push(copyOfArray[rand]);
+      copyOfArray.splice(rand, 1);
+    }
+
+    return newArr;
   };
 
 
