@@ -312,6 +312,15 @@ _.each = function(collection, iterator) {
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var computed = {};
+
+    return function() {
+      var arg = JSON.stringify(arguments);
+      if(!computed[arg]) {
+        computed[arg] = func.apply(this, arguments);
+      }
+      return computed[arg];
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
