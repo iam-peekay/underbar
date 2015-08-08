@@ -392,10 +392,20 @@ _.each = function(collection, iterator) {
 
   _.sortBy = function(collection, iterator) {
     if(typeof iterator === 'function') {
-      return collection.sort( function(a, b) {return iterator(a) - iterator(b) });
+      return collection.sort( function(a, b) {
+        return iterator(a) - iterator(b) 
+      });
      } 
     else if (typeof iterator === 'string') {
-      return collection.sort( function(a, b) {return a[iterator] - b[iterator] });
+      return collection.sort( function(a, b) {
+        if (a[iterator] < b[iterator]) {
+          return -1;
+        }
+        if (a[iterator] > b[iterator]) {
+          return 1;
+        }
+        return 0;
+      });
      } else {
       return null;
      }
@@ -414,6 +424,15 @@ _.each = function(collection, iterator) {
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    var newArr = [];
+    _.each(nestedArray, function(item) {
+      if (Array.isArray(item)) {
+        newArr = newArr.concat(_.flatten(item));
+      } else {
+        newArr.push(item);
+      }
+    });
+    return newArr;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
