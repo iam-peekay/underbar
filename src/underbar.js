@@ -471,8 +471,8 @@ _.each = function(collection, iterator) {
           return _.contains(arg, item);
         });
         if (allContain) {
-        newArr.push(item);
-      }
+          newArr.push(item);
+        }
     });
 
     return newArr;
@@ -482,6 +482,24 @@ _.each = function(collection, iterator) {
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var newArr = [];
+    var argumentsArr = arguments;
+    _.each(array, function(item) {
+      var noneOtherContain = true;
+      for (var i = 1; i < argumentsArr.length; i++) {
+        for (var j = 0; j < argumentsArr[i].length; j++) {
+          if (argumentsArr[i][j] === item) {
+            noneOtherContain = false;
+          }
+        }
+      }
+      if (noneOtherContain) {
+          newArr.push(item);
+        }
+    });
+      
+    return newArr;
+
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
@@ -492,5 +510,3 @@ _.each = function(collection, iterator) {
   _.throttle = function(func, wait) {
   };
 }());
-
-// TEST
