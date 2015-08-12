@@ -460,11 +460,24 @@ _.each = function(collection, iterator) {
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
+
   _.intersection = function() {
+    // Take one of the arrays (lets call this the test array) and use that as base case. 
+    // Test to see if every one of the other arrays contains every element in the test array.
+    var newArr = [];
+    var argumentsArr = arguments;
+    _.each(argumentsArr[0], function(item) {
+        var allContain = _.every(argumentsArr, function(arg) {
+          return _.contains(arg, item);
+        });
+        if (allContain) {
+        newArr.push(item);
+      }
+    });
 
-
-
+    return newArr;
   };
+
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
