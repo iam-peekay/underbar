@@ -417,6 +417,29 @@ _.each = function(collection, iterator) {
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var newArr = [];
+
+    function findLongest(arr) {
+      var longest = 0;
+      for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i].length > longest) {
+          longest = arguments[i].length;
+       }
+     }
+      return longest;
+    }
+
+    var longestArr = findLongest(arguments);
+
+    for (var i = 0; i < longestArr; i++) {
+      var subArr = [];
+      for (var j = 0; j < arguments.length; j++) {
+        subArr.push(arguments[j][i]);
+      }
+      newArr.push(subArr);
+    }
+
+    return newArr;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -438,6 +461,9 @@ _.each = function(collection, iterator) {
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+
+
+
   };
 
   // Take the difference between one array and a number of other arrays.
@@ -453,3 +479,5 @@ _.each = function(collection, iterator) {
   _.throttle = function(func, wait) {
   };
 }());
+
+// TEST
