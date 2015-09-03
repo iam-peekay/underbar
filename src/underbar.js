@@ -508,19 +508,20 @@ _.each = function(collection, iterator) {
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
-    var timeout = null;
-    var previous = 0;
+    var timeCleared = true;
     var context, args, result;
     return function() {
-      var now = Date.now();
-      if (!previous) previous = now;
-      var remaining = wait - (previous - now);
       context = this;
-      args = arguments; 
-      if (remaining < 0 || remaining > wait) {
-        previous = now;
+      args = Array.prototype.slice.call(arguments);
+      if (timeCleared) {
+        timeCleared = false;
         result = func.apply(context, args);
-      }
+
+        function clearTime() {
+          timeCleared = true;
+        }
+        _.delay(clearTime, wait);
+       }
       return result;
     };
   };
