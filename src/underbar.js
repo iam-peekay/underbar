@@ -393,7 +393,7 @@ _.each = function(collection, iterator) {
   _.sortBy = function(collection, iterator) {
     if(typeof iterator === 'function') {
       return collection.sort( function(a, b) {
-        return iterator(a) - iterator(b) 
+        return iterator(a) - iterator(b); 
       });
      } 
     else if (typeof iterator === 'string') {
@@ -419,7 +419,7 @@ _.each = function(collection, iterator) {
   _.zip = function() {
     var newArr = [];
 
-    function findLongest(arr) {
+    function findLongest() {
       var longest = 0;
       for (var i = 0; i < arguments.length; i++) {
         if (arguments[i].length > longest) {
@@ -508,5 +508,21 @@ _.each = function(collection, iterator) {
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    var timeout = null;
+    var previous = 0;
+    var context, args, result;
+    return function() {
+      var now = Date.now();
+      if (!previous) previous = now;
+      var remaining = wait - (previous - now);
+      context = this;
+      args = arguments; 
+      if (remaining < 0 || remaining > wait) {
+        previous = now;
+        result = func.apply(context, args);
+      }
+      return result;
+    };
   };
+  
 }());
