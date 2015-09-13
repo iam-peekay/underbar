@@ -200,7 +200,7 @@ _.each = function(collection, iterator) {
 
     return !!_.reduce(collection, function(result, item) {
       return iterator(item) && result;
-    }, true)
+    }, true);
 
   };
 
@@ -311,11 +311,11 @@ _.each = function(collection, iterator) {
 
     return function() {
       var arg = JSON.stringify(arguments);
-      if(!computed[arg]) {
+      if(!(arg in computed)) {
         computed[arg] = func.apply(this, arguments);
       }
       return computed[arg];
-    }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -348,11 +348,11 @@ _.each = function(collection, iterator) {
     var copyOfArray = Array.prototype.slice.call(array);
     var newArr = [];
 
-    for (var i = 0; i < array.length; i++) {
+    _.each(array, function(item) {
       var rand = Math.floor(Math.random() * copyOfArray.length);
       newArr.push(copyOfArray[rand]);
       copyOfArray.splice(rand, 1);
-    }
+    });
 
     return newArr;
   };
@@ -377,7 +377,7 @@ _.each = function(collection, iterator) {
         method = functionOrKey;
       }
       return method.apply(item, args);
-      })
+      });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -388,9 +388,9 @@ _.each = function(collection, iterator) {
   _.sortBy = function(collection, iterator) {
     if(typeof iterator === 'function') {
       return collection.sort( function(a, b) {
-        return iterator(a) - iterator(b); 
+        return iterator(a) - iterator(b);
       });
-     } 
+     }
     else if (typeof iterator === 'string') {
       return collection.sort( function(a, b) {
         if (a[iterator] < b[iterator]) {
@@ -420,7 +420,7 @@ _.each = function(collection, iterator) {
         if (arguments[i].length > longest) {
           longest = arguments[i].length;
        }
-     }
+      }
       return longest;
     }
 
@@ -477,6 +477,8 @@ _.each = function(collection, iterator) {
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    // loop through each item in the passed in array and compare it against 
+    // each item in every other array. If none match, then add the item to the result
     var newArr = [];
     var argumentsArr = arguments;
     _.each(array, function(item) {
@@ -492,9 +494,7 @@ _.each = function(collection, iterator) {
           newArr.push(item);
         }
     });
-      
     return newArr;
-
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
@@ -503,14 +503,15 @@ _.each = function(collection, iterator) {
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    // a time should set off each time a function is invoked
+    // when a function is called, the timer should be checked
     var timeCleared = true;
-    var context, args, result;
+    var args, result;
     return function() {
-      context = this;
       args = Array.prototype.slice.call(arguments);
       if (timeCleared) {
         timeCleared = false;
-        result = func.apply(context, args);
+        result = func.apply(this, args);
 
         function clearTime() {
           timeCleared = true;
