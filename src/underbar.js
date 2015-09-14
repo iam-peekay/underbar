@@ -327,7 +327,7 @@ _.each = function(collection, iterator) {
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments, 2);
     setTimeout( function() {
-      func.apply(null, args); // NOTE TO SELF: Works with "null" or "this"
+      func.apply(null, args); // NOTE TO SELF: When passing information from one function to another, use apply. Apply can take "null" or "this" as first argument in this use case
     }, wait);
   };
 
