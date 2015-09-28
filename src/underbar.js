@@ -118,8 +118,8 @@ _.each = function(collection, iterator) {
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var mapped = [];
-    _.each(collection, function(item) {
-      mapped.push(iterator(item));
+    _.each(collection, function(value, key, collection) {
+      mapped.push(iterator(value));
     });
     return mapped;
   };
